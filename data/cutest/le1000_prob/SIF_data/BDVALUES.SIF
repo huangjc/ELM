@@ -1,0 +1,143 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          BDVALUES
+
+*   Problem :
+*   *********
+
+*   The Boundary Value problem.
+*   This is a nonlinear equations problems with the original
+*   starting point scaled by the factor X0SCALE.  
+*   See BDVALUE for the original formulation, corresponding to X0SCALE = 1.0.
+
+*   Source:  a variant of problem 28 in
+*   J.J. More', B.S. Garbow and K.E. Hillstrom,
+*   "Testing Unconstrained Optimization Software",
+*   ACM Transactions on Mathematical Software, vol. 7(1), pp. 17-41, 1981.
+
+*   SIF input: Ph. Toint, June 2003.
+
+*   classification NOR2-MN-V-V
+
+*   NDP is the number of discretization points (variable).
+*   The number of free variables is NDP-2
+
+*IE NDP                 12             $-PARAMETER     original value
+*IE NDP                 52             $-PARAMETER
+*IE NDP                 102            $-PARAMETER
+*IE NDP                 502            $-PARAMETER
+ IE NDP                 1002           $-PARAMETER
+*IE NDP                 5002           $-PARAMETER
+*IE NDP                 10002          $-PARAMETER
+*IE NDP                 50002          $-PARAMETER
+*IE NDP                 100002         $-PARAMETER
+
+*   Starting point scaling
+
+*RE X0SCALE             10.0           $-PARAMETER
+*RE X0SCALE             100.0          $-PARAMETER
+ RE X0SCALE             1000.0         $-PARAMETER
+
+*   Define useful parameters
+
+ IE 1                   1
+ IE 2                   2
+ RE 1.0                 1.0
+
+ IA NDP-1     NDP       -1
+ RI RNDP-1    NDP-1
+ R/ H         1.0                      RNDP-1
+ R* H2        H                        H
+ RM HALFH2    H2        0.5D0
+
+VARIABLES
+
+ DO I         1                        NDP
+ X  X(I)
+ ND
+
+GROUPS
+
+ DO I         2                        NDP-1
+ IA I-1       I         -1
+ IA I+1       I          1
+ XE G(I)      X(I-1)    -1.0           X(I)      2.0
+ XE G(I)      X(I+1)    -1.0
+ ND
+
+BOUNDS
+
+ FR BDVALUES  'DEFAULT'
+ XX BDVALUES  X(1)      0.0
+ XX BDVALUES  X(NDP)    0.0
+
+START POINT
+
+ X  BDVALUES  X(1)      0.0
+
+ DO I         2                        NDP-1
+ IA I-1       I         -1
+ RI RI-1      I-1
+ R* IH        RI-1                     H
+ RA IH-1      IH        -1.0
+ R* TI        IH                       IH-1
+ R* STI       TI                       X0SCALE
+ Z  BDVALUES  X(I)                     STI
+ ND
+
+ X  BDVALUES  X(NDP)    0.0
+
+ELEMENT TYPE
+
+ EV WCUBE     V
+ EP WCUBE     B
+
+ELEMENT USES
+
+ T  'DEFAULT' WCUBE
+
+ DO I         2                        NDP-1
+ RI REALI     I
+ RA RI+1      REALI     1.0
+ R* IH        REALI                    H
+ RA IH+1      IH        1.0
+ ZV E(I)      V                        X(I)
+ ZP E(I)      B                        IH+1
+ ND
+
+GROUP USES
+
+ DO I         2                        NDP-1
+ ZE G(I)      E(I)                     HALFH2
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN                0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      BDVALUES
+
+TEMPORARIES
+
+ R  VPLUSB
+
+INDIVIDUALS
+
+ T  WCUBE
+ A  VPLUSB              V + B
+ F                      VPLUSB**3
+ G  V                   3.0 * VPLUSB**2
+ H  V         V         6.0 * VPLUSB
+
+ENDATA

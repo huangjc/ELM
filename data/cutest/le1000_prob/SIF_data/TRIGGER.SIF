@@ -1,0 +1,218 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          TRIGGER
+
+*   Problem :
+*   *********
+
+*   The trigger circuit problem by Rheinboldt, as a function
+*   of the input voltage.
+
+*   Source:
+*   G. Poenisch and H. Schwetlick,
+*   "Computing Turning Points of Curves Implicitly Defined by
+*   Nonlinear Equations Depending on a Parameter",
+*   Computing 26:107-121, 1981.
+
+*   This is also problem 12 in
+*   J.J. More',
+*   "A collection of nonlinear model problems"
+*   Proceedings of the AMS-SIAM Summer seminar on the Computational
+*   Solution of Nonlinear Systems of Equations, Colorado, 1988.
+*   Argonne National Laboratory MCS-P60-0289, 1989.
+*   but there are several typos in that source.
+
+*   SIF input: Ph. Toint, Dec 1989.
+
+*   classification NOR2-MY-7-6
+
+*   Values of the resistances:
+
+ RE R0                  10000.0
+ RE R1                  39.0
+ RE R2                  51.0
+ RE R3                  10.0
+ RE R4                  25.5
+ RE R5                  1.0
+ RE R6                  0.62
+ RE R7                  13.0
+ RE R8                  0.201
+
+*   Value of the input
+
+ RE INVALUE             0.322866124
+
+*   Inverse resistances
+
+ RD 1/R0      R0        1.0
+ RD 1/R1      R1        1.0
+ RD 1/R2      R2        1.0
+ RD 1/R3      R3        1.0
+ RD 1/R4      R4        1.0
+ RD 1/R5      R5        1.0
+ RD 1/R6      R6        1.0
+ RD 1/R7      R7        1.0
+ RD 1/R8      R8        1.0
+
+*   Matrix coefficients
+
+ R+ A11       1/R0                     1/R1
+ R+ A11       A11                      1/R2
+ RM A12       1/R1      -1.0
+
+ R+ A22       1/R1                     1/R3
+ RM A26       1/R3      -1.0
+
+ RM A31       1/R0      -1.0
+ R+ A33       1/R0                     1/R4
+ RM A34       1/R4      -1.0
+
+ R+ A44       1/R4                     1/R5
+ R+ A44       A44                      1/R6
+ RM A45       1/R5      -1.0
+
+ R+ A55       1/R5                     1/R7
+ RM A56       1/R7      -1.0
+
+ R+ A66       1/R3                     1/R7
+ R+ A66       A66                      1/R8
+
+ RM -1/R8     1/R8      -1.0
+
+VARIABLES
+
+    X1
+    X2
+    X3
+    X4
+    X5
+    OUTPUT
+    INPUT
+
+GROUPS
+
+ ZE E1        X1                       A11
+ ZE E1        X2                       A12
+ ZE E1        X3                       A31
+ ZE E1        INPUT                    1/R2
+
+ ZE E2        X1                       A12
+ ZE E2        X2                       A22
+ ZE E2        OUTPUT                   A26
+
+ ZE E3        X1                       A31
+ ZE E3        X3                       A33
+ ZE E3        X4                       A34
+
+ ZE E4        X3                       A34
+ ZE E4        X4                       A44
+ ZE E4        X5                       A45
+
+ ZE E5        X4                       A45
+ ZE E5        X5                       A55
+ ZE E5        OUTPUT                   A56
+
+ ZE E6        X2                       A26
+ ZE E6        X5                       A56
+ ZE E6        OUTPUT                   A66
+
+BOUNDS
+
+ FR TRIGGER   'DEFAULT'
+
+*   Fix the input
+
+ ZX TRIGGER   INPUT                    INVALUE
+
+START POINT
+
+ Z  TRIGGER   INPUT                    INVALUE
+ X  TRIGGER   X1        0.2
+ X  TRIGGER   X2        0.6
+ X  TRIGGER   X3        0.2
+ X  TRIGGER   X4        0.2
+ X  TRIGGER   X5        0.6
+ X  TRIGGER   OUTPUT    9.6
+
+ELEMENT TYPE
+
+ EV DIODE     X
+
+ EV OPAMP     XX1                      XX3
+ IV OPAMP     U
+
+ELEMENT USES
+
+ T  G1X2      DIODE
+ V  G1X2      X                        X2
+
+ T  G1X5      DIODE
+ V  G1X5      X                        X5
+
+ T  G2X1X3    OPAMP
+ V  G2X1X3    XX1                      X1
+ V  G2X1X3    XX3                      X3
+
+GROUP USES
+
+ E  E2        G1X2
+ E  E5        G1X5
+ ZE E6        G2X1X3                   -1/R8
+
+OBJECT BOUND
+
+*   Least square problems are bounded below by zero
+
+ LO TRIGGER             0.0
+
+*   Solution
+
+*LO SOLTN               0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      TRIGGER
+
+TEMPORARIES
+
+ R  EXA
+ R  B1
+ R  B2
+ R  BSQ
+ R  BU2
+ M  EXP
+ M  ATAN
+
+GLOBALS
+
+ A  B1                  5.6D-8
+ A  B2                  1962.0
+
+INDIVIDUALS
+
+*   Model of a diode
+
+ T  DIODE
+ A  EXA                 B1 * EXP( 25.0 * X )
+ F                      EXA - B1
+ G  X                   25.0 * EXA
+ H  X         X         625.0 * EXA
+
+*   Model of an operational amplifier
+
+ T  OPAMP
+ R  U         XX1       -1.0           XX3       1.0
+ A  BSQ                 B2 * B2
+ A  BU2                 1.0 + BSQ * U * U
+ F                      7.65 * ATAN( B2 * U )
+ G  U                   7.65 * B2 / BU2
+ H  U         U         -15.3 * BSQ * B2 * U / ( BU2 * BU2 )
+
+ENDATA

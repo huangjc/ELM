@@ -1,0 +1,194 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          CHEMRCTB
+
+*   Problem :
+*   *********
+
+*   The tubular chemical reactor model problem by Poore, using a
+*   finite difference approximation to the steady state solutions.
+*   The case where mass and heat Peclet numbers are equal and the
+*   adiabatic reaction is considered.  In this case, the concentration
+*   is equal to (B+1-T)/B.
+
+*   Source:  problem 8, eqs (8.10)--(8.11) in
+*   J.J. More',
+*   "A collection of nonlinear model problems"
+*   Proceedings of the AMS-SIAM Summer seminar on the Computational
+*   Solution of Nonlinear Systems of Equations, Colorado, 1988.
+*   Argonne National Laboratory MCS-P60-0289, 1989.
+
+*   SIF input: Ph. Toint, Dec 1989.
+
+*   classification NOR2-MN-V-V
+
+*   The axial coordinate interval is [0,1]
+
+*   Number of discretized point for the interval [0,1].
+*   The number of variables is N.
+
+*IE N                   10             $-PARAMETER     original value
+*IE N                   50             $-PARAMETER
+*IE N                   100            $-PARAMETER
+*IE N                   500            $-PARAMETER
+ IE N                   1000           $-PARAMETER
+*IE N                   5000           $-PARAMETER
+
+*   Problem's constants
+*   Mass and heat Peclet numbers
+
+ RE PE                  5.0            $-PARAMETER
+
+*   Damkholer number
+
+ RE D                   0.135          $-PARAMETER
+
+*   Heat of the reaction
+
+ RE B                   0.5            $-PARAMETER
+
+*   Activation energy
+
+ RE GAMMA               25.0           $-PARAMETER
+
+*   Constants
+
+ IE 1                   1
+ IE 2                   2
+ RE 1.0                 1.0
+
+*   Discretization definition
+
+ IA N-1       N         -1
+ RI 1/H       N-1
+ RM -1/H      1/H       -1.0
+ R/ H         1.0                      1/H
+ R* 1/H2      1/H                      1/H
+
+*   Constant coefficients in the temperature equations
+
+ RA B+1       B         1.0
+
+ R/ 1/PE      1.0                      PE
+ R* 1/H2PE    1/PE                     1/H2
+ RM -1/H2PE   1/H2PE    -1.0
+ R* HPE       PE                       H
+ RM -HPE      HPE       -1.0
+ R+ -2/H2PE   -1/H2PE                  -1/H2PE
+
+ RM CT1       -HPE      1.0
+ R+ CTI-1     1/H2PE                   1/H
+ R+ CTI       -2/H2PE                  -1/H
+
+VARIABLES
+
+*   Temperature at the discretized points.
+
+ DO I         1                        N
+ X  T(I)
+ ND
+
+GROUPS
+
+*   First temperature equation in s = 0 (i=1)
+
+ XE GT(1)     T(1)      -1.0
+ ZE GT(1)     T(2)                     CT1
+
+*   Middle temperature equations (1<i<n)
+
+ DO I         2                        N-1
+ IA I-1       I         -1
+ IA I+1       I         1
+ ZE GT(I)     T(I-1)                   CTI-1
+ ZE GT(I)     T(I)                     CTI
+ ZE GT(I)     T(I+1)                   1/H2PE
+ ND
+
+*   Last temperature equation in s = 1 (i=n)
+
+ XE GT(N)     T(N-1)    -1.0
+ XE GT(N)     T(N)      1.0
+
+CONSTANTS
+
+ Z  CHEMRCTB  GT(1)                    -HPE
+
+BOUNDS
+
+*   temperature and concentration are nonnegative
+
+ DO I         1                        N
+ XL CHEMRCTB  T(I)      0.0000001
+ ND
+
+START POINT
+
+ XV CHEMRCTB  'DEFAULT' 1.0
+
+ELEMENT TYPE
+
+*   Weighted adiabatic reaction rate
+
+ EV ARR       T
+ EP ARR       G                        BPLUS1
+
+ELEMENT USES
+
+ DO I         2                        N-1
+ XT ET(I)     ARR
+ ZV ET(I)     T                        T(I)
+ ZP ET(I)     G                        GAMMA
+ ZP ET(I)     BPLUS1                   B+1
+ ND
+
+GROUP USES
+
+ DO I         2                        N-1
+ ZE GT(I)     ET(I)                    D
+ ND
+
+OBJECT BOUND
+
+ LO CHEMRCTB            0.0
+
+*   Solution
+
+*LO SOLTN               0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      CHEMRCTB
+
+TEMPORARIES
+
+ R  DADT
+ R  D2ADT2
+ R  EX
+ R  BEX
+ M  EXP
+
+INDIVIDUALS
+
+*   Reaction rate (Arrhenius cinetics)
+
+ T  ARR
+
+ A  DADT                G / ( T * T )
+ A  D2ADT2              - 2.0 * DADT / T
+ A  EX                  EXP( G - G / T )
+ A  BEX                 EX * ( BPLUS1 - T )
+
+ F                      BEX
+ G  T                   BEX * DADT - EX
+ H  T         T         BEX * ( DADT * DADT + D2ADT2 )
+ H+                     - 2.0 * EX * DADT
+
+ENDATA

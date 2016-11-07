@@ -1,0 +1,163 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          CHNRSBNE
+
+*   Problem :
+*   --------
+*   The chained Rosenbrock function (Toint),  nonlinear equation version.
+
+*   Source:
+*   Ph.L. Toint,
+*   "Some numerical results using a sparse matrix updating formula in
+*   unconstrained optimization",
+*   Mathematics of Computation, vol. 32(114), pp. 839-852, 1978.
+
+*   See also Buckley#46 (n = 25) (p. 45).
+*   SIF input: Ph. Toint, Dec 1989.
+
+*   classification NOR2-AN-V-V
+
+*   Number of variables ( at most 50)
+
+*IE N                   10             $-PARAMETER     original value
+*IE N                   25             $-PARAMETER
+ IE N                   50             $-PARAMETER
+
+*   Problem data
+
+ RE ALPH1               1.25
+ RE ALPH2               1.40
+ RE ALPH3               2.40
+ RE ALPH4               1.40
+ RE ALPH5               1.75
+ RE ALPH6               1.20
+ RE ALPH7               2.25
+ RE ALPH8               1.20
+ RE ALPH9               1.00
+ RE ALPH10              1.10
+ RE ALPH11              1.50
+ RE ALPH12              1.60
+ RE ALPH13              1.25
+ RE ALPH14              1.25
+ RE ALPH15              1.20
+ RE ALPH16              1.20
+ RE ALPH17              1.40
+ RE ALPH18              0.50
+ RE ALPH19              0.50
+ RE ALPH20              1.25
+ RE ALPH21              1.80
+ RE ALPH22              0.75
+ RE ALPH23              1.25
+ RE ALPH24              1.40
+ RE ALPH25              1.60
+ RE ALPH26              2.00
+ RE ALPH27              1.00
+ RE ALPH28              1.60
+ RE ALPH29              1.25
+ RE ALPH30              2.75
+ RE ALPH31              1.25
+ RE ALPH32              1.25
+ RE ALPH33              1.25
+ RE ALPH34              3.00
+ RE ALPH35              1.50
+ RE ALPH36              2.00
+ RE ALPH37              1.25
+ RE ALPH38              1.40
+ RE ALPH39              1.80
+ RE ALPH40              1.50
+ RE ALPH41              2.20
+ RE ALPH42              1.40
+ RE ALPH43              1.50
+ RE ALPH44              1.25
+ RE ALPH45              2.00
+ RE ALPH46              1.50
+ RE ALPH47              1.25
+ RE ALPH48              1.40
+ RE ALPH49              0.60
+ RE ALPH50              1.50
+
+*   other parameter definitions
+
+ IE 1                   1
+ IE 2                   2
+
+VARIABLES
+
+ DO I         1                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+ DO I         2                        N
+ IA I-1       I         -1
+ XE SQ(I)     X(I-1)    1.0
+ AM AI        ALPH(I)   1.0
+ RM 4AI       AI        4.0
+ RD SCL       4AI       1.0
+ ZE SQ(I)     'SCALE'                  SCL
+ XE B(I)      X(I)      1.0
+ ND
+
+CONSTANTS
+
+ DO I         2                        N
+ X  CHNRSBNE  B(I)      1.0
+ ND
+
+BOUNDS
+
+ FR CHNRSBNE  'DEFAULT'
+
+START POINT
+
+ XV CHNROSMB  'DEFAULT' -1.0
+
+ELEMENT TYPE
+
+ EV ETYPE     V1
+ EP ETYPE     GAMMA
+
+ELEMENT USES
+
+ XT 'DEFAULT' ETYPE
+
+ DO I         2                        N
+ ZV ELA(I)    V1                       X(I)
+ XP ELA(I)    GAMMA      2.0
+ ND
+
+GROUP USES
+
+ DO I         2                        N
+ XE SQ(I)     ELA(I)
+ ND
+
+OBJECT BOUND
+
+ LO CHNRSBNE            0.0
+
+*   Solution
+
+*LO SOLTN               0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      CHNRSBNE
+
+INDIVIDUALS
+
+ T  ETYPE
+ F                      - V1 ** GAMMA
+ G  V1                  - GAMMA * V1 ** ( GAMMA - 1.0 )
+ H  V1        V1        - GAMMA * ( GAMMA - 1.0 ) *
+ H+                     V1 ** ( GAMMA - 2.0 )
+
+ENDATA

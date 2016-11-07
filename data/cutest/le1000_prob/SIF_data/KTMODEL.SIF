@@ -1,0 +1,1322 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          KTMODEL
+
+*   Problem :
+*   *********
+
+*   A four sector dynamic macro-economic model for South Korea over an horizon
+*   of thirty periods of one year.  The four considered sectors are 
+*   (1) agriculture and mining, (2) heavy industry, (3) light industry and
+*   (4) services. The basic structure of the model is to maximize a welfare 
+*   functional over the total period subject to constraints in the form of 
+*   distribution relations, productions functions, absoptive capacity functions,
+*   foreign exchange constraints, initial and terminal capital stock and 
+*   foreign debt constraints. The production functions are of CES (constant
+*   elasticity of substitution) type.
+
+*   Source:
+*   D. Kendrick and L. Taylor,
+*   "A Dynamic Nonlinear Planning Model for Korea",
+*   In "Practical Approaches to Development Planning", I. Adelman (ed.),
+*   The John Hopkins Press, Baltimore, vol. 7, pp.77-105, 1969.
+
+*   SIF input: E. Loute and B. Apraxine, March 1993.
+
+*   classification NOR2-MN-720-450
+
+ IE T                   30             $ number of periods
+ IA T-1       T         -1
+ IA T+1       T         1
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 0                   0
+
+ RE z                   0.03           $ consumption discount rate
+ RE theta               0.05           $ interest rate on foreign debt
+ RE epsil               0.5 
+ RE lo                  8.6E-3
+ RE COLO                0.000001
+ RE alpha               0.02
+ RE K11                 2.02
+ RE K12                 2.13
+ RE K13                 1.26
+ RE K14                 1.27
+ RE K1star              14.2
+ RE K2star              20
+ RE K3star              10.2
+ RE K4star              10.3
+ RE gammastar           8
+ RE a1                  0.48
+ RE a2                  0.33
+ RE a3                  0.345
+ RE a4                  0.3925
+ RE b1                  0.85
+ RE b2                  0.90
+ RE b3                  0.91
+ RE b4                  0.87
+ RE mu1                 0.275
+ RE mu2                 0.35
+ RE mu3                 0.30
+ RE mu4                 0.35
+ RE tau1                0.41           $ efficiency parameters
+ RE tau2                1.26
+ RE tau3                1.89
+ RE tau4                0.47
+ RE nu1                 0.03           $ rate of technical progress
+ RE nu2                 0.035
+ RE nu3                 0.025
+ RE nu4                 0.025
+ RE beta1               0.35           $ distribution parameter
+ RE beta2               0.30
+ RE beta3               0.25
+ RE beta4               0.20
+ RE rho1                -0.166
+ RE rho2                0.111
+ RE rho3                0.111
+ RE rho4                0.666
+ RE d1                  0.0008         $ marginal propensities to import (prod)
+ RE d2                  0.090
+ RE d3                  0.030
+ RE d4                  0.004
+ RE pi1                 0.63           $ marginal propensities to import (cap)
+ RE pi2                 0.98
+ RE pi3                 0.10
+ RE pi4                 0.10
+ RE low                 0.02
+ RE ee1,1               0.064
+ RE ee1,2               0.035
+ RE ee1,3               0.106
+ RE ee1,4               0.131
+ RE ee2,1               0.070
+ RE ee2,2               0.043
+ RE ee2,3               0.128
+ RE ee2,4               0.148
+ RE ee3,1               0.076
+ RE ee3,2               0.051
+ RE ee3,3               0.154
+ RE ee3,4               0.166
+ RE ee4,1               0.082
+ RE ee4,2               0.062
+ RE ee4,3               0.185
+ RE ee4,4               0.185
+ RE ee5,1               0.088
+ RE ee5,2               0.073
+ RE ee5,3               0.220
+ RE ee5,4               0.205
+ RE ee6,1               0.094
+ RE ee6,2               0.087
+ RE ee6,3               0.261
+ RE ee6,4               0.277
+ RE ee7,1               0.099
+ RE ee7,2               0.103
+ RE ee7,3               0.308
+ RE ee7,4               0.251
+ RE ee8,1               0.103
+ RE ee8,2               0.121
+ RE ee8,3               0.362
+ RE ee8,4               0.276
+ RE ee9,1               0.107
+ RE ee9,2               0.141
+ RE ee9,3               0.424
+ RE ee9,4               0.302
+ RE ee10,1              0.110
+ RE ee10,2              0.165
+ RE ee10,3              0.495
+ RE ee10,4              0.330
+ RE ee11,1              0.112
+ RE ee11,2              0.189
+ RE ee11,3              0.530
+ RE ee11,4              0.348
+ RE ee12,1              0.113
+ RE ee12,2              0.214
+ RE ee12,3              0.567
+ RE ee12,4              0.366
+ RE ee13,1              0.115
+ RE ee13,2              0.243
+ RE ee13,3              0.607
+ RE ee13,4              0.334
+ RE ee14,1              0.115
+ RE ee14,2              0.274
+ RE ee14,3              0.649
+ RE ee14,4              0.404
+ RE ee15,1              0.116
+ RE ee15,2              0.309
+ RE ee15,3              0.695
+ RE ee15,4              0.425
+ RE ee16,1              0.116
+ RE ee16,2              0.347
+ RE ee16,3              0.744
+ RE ee16,4              0.446
+ RE ee17,1              0.115
+ RE ee17,2              0.389
+ RE ee17,3              0.796
+ RE ee17,4              0.469
+ RE ee18,1              0.114
+ RE ee18,2              0.435
+ RE ee18,3              0.851
+ RE ee18,4              0.492
+ RE ee19,1              0.110
+ RE ee19,2              0.486
+ RE ee19,3              0.911
+ RE ee19,4              0.516
+ RE ee20,1              0.108
+ RE ee20,2              0.541
+ RE ee20,3              0.975
+ RE ee20,4              0.541
+ RE ee21,1              0.114
+ RE ee21,2              0.606
+ RE ee21,3              1.006
+ RE ee21,4              0.560
+ RE ee22,1              0.121
+ RE ee22,2              0.676
+ RE ee22,3              1.038
+ RE ee22,4              0.579
+ RE ee23,1              0.127
+ RE ee23,2              0.751
+ RE ee23,3              1.070
+ RE ee23,4              0.599
+ RE ee24,1              0.134
+ RE ee24,2              0.833
+ RE ee24,3              1.102
+ RE ee24,4              0.618
+ RE ee25,1              0.142
+ RE ee25,2              0.921
+ RE ee25,3              1.134
+ RE ee25,4              0.638
+ RE ee26,1              0.150
+ RE ee26,2              1.017
+ RE ee26,3              1.198
+ RE ee26,4              0.658
+ RE ee27,1              0.158
+ RE ee27,2              1.119
+ RE ee27,3              1.198
+ RE ee27,4              0.678
+ RE ee28,1              0.166
+ RE ee28,2              1.230
+ RE ee28,3              1.230
+ RE ee28,4              0.698
+ RE ee29,1              0.175
+ RE ee29,2              1.349
+ RE ee29,3              1.261
+ RE ee29,4              0.718
+ RE ee30,1              0.185
+ RE ee30,2              1.477
+ RE ee30,3              1.292
+ RE ee30,4              0.739
+ RE AA1,1               0.1            $ Leontieff matrix
+ RE AA1,2               0.09
+ RE AA1,3               0.04
+ RE AA1,4               0.03
+ RE AA2,1               0.09
+ RE AA2,2               0.33
+ RE AA2,3               0.24
+ RE AA2,4               0.12
+ RE AA3,1               0.04
+ RE AA3,2               0.02
+ RE AA3,3               0.12
+ RE AA3,4               0.05
+ RE AA4,1               0.03
+ RE AA4,2               0.09
+ RE AA4,3               0.09
+ RE AA4,4               0.08
+ RE PP1,1               -1.0
+ R- PP1,1     PP1,1                    d1
+ R+ PP1,1     PP1,1                    AA1,1
+ RM PP1,2     AA1,2     -1.0
+ RM PP1,3     AA1,3     -1.0
+ RM PP1,4     AA1,4     -1.0
+ RM PP2,1     AA2,1     -1.0
+ RE PP2,2               -1.0
+ R- PP2,2     PP2,2                    d2
+ R+ PP2,2     PP2,2                    AA2,2
+ RM PP2,3     AA2,3     -1.0
+ RM PP2,4     AA2,4     -1.0
+ RM PP3,1     AA3,1     -1.0
+ RM PP3,2     AA3,2     -1.0
+ RE PP3,3               -1.0
+ R- PP3,3     PP3,3                    d3
+ R+ PP3,3     PP3,3                    AA3,3
+ RM PP3,4     AA3,4     -1.0
+ RM PP4,1     AA4,1     -1.0
+ RM PP4,2     AA4,2     -1.0
+ RM PP4,3     AA4,3     -1.0
+ RE PP4,4               -1.0
+ R- PP4,4     PP4,4                    d4
+ R+ PP4,4     PP4,4                    AA4,4
+
+*   capital coefficient matrix
+
+ RE BB1,1               0.0
+ RE BB1,2               0.0
+ RE BB1,3               0.0
+ RE BB1,4               0.0
+ RE BB2,1               0.6908
+ RE BB2,2               1.3109
+ RE BB2,3               0.1769
+ RE BB2,4               0.15
+ RE BB3,1               0.001
+ RE BB3,2               0.0199
+ RE BB3,3               0.002
+ RE BB3,4               0.0
+ RE BB4,1               0.0
+ RE BB4,2               0.0
+ RE BB4,3               0.0
+ RE BB4,4               0.0
+
+VARIABLES
+
+ DO t         1                        T+1
+ X  ksi(t)                             $ welfare
+ X  gam(t)                             $ debt
+ OD t
+
+*   capital (for each sector)
+
+ DO t         1                        T+1
+ DO i         1                        4
+ X  K(t,i)                   
+ OD i
+ OD t
+
+ DO t         1                        T
+ DO i         1                        4
+ X  Q(t,i)                             $ output
+ X  C(t,i)                             $ consumption
+ X  del(t,i)                           $ investment
+ X  L(t,i)                             $ labor
+ OD i
+ OD t
+
+*   imports (for 2 sectors only)
+
+ DO t         1                        T
+ X  M2(t)
+ X  M3(t)
+ OD t
+
+GROUPS
+
+*   welfare is a function of consumptions
+
+ DO t         1                        T
+ IA t+1       t         1
+ XE XI(t)     ksi(t+1)  1.0            ksi(t)    -1.0
+ OD t
+
+*   capital is function of previous capital and investment 
+
+ DO t         1                        T
+ DO i         1                        4
+ IA t+1       t         1
+ A= aux1      mu(i)     
+ RM coef1     aux1      -1.0
+ XE KK(t,i)   K(t+1,i)  1.0
+ ZE KK(t,i)   K(t,i)                   coef1
+ OD i
+ OD t
+
+*   debt is function of previous debt, output, investment and imports
+
+ RA 1+theta   theta     1.0
+ RM -1-theta  1+theta   -1.0
+ DO t         1                        T
+ IA t+1       t         1
+ XE GG(t)     gam(t+1)  1.0
+ ZE GG(t)     gam(t)                   -1-theta
+ DO i         1                        4
+ AM coef      d(i)      -1.0
+ ZE GG(t)     Q(t,i)                   coef
+ AM coef      pi(i)     -1.0
+ ZE GG(t)     del(t,i)                 coef
+ OD i
+ XE GG(t)     M2(t)     -1.0           M3(t)     -1.0
+ OD t
+
+*   output is function of capital and labor
+
+ DO t         1                        T
+ DO i         1                        4
+ XE QQ(t,i)
+ OD i
+ OD t
+
+*   consumption is function of output, investments and imports
+
+ DO t         1                        T
+ DO i         1                        4
+ DO j         1                        4
+ ZE CC(t,i)   Q(t,j)                   PP(i,j)
+ ZE CC(t,i)   del(t,j)                 BB(i,j)
+ OD j
+ OD i
+ XE CC(t,2)   M2(t)     -1.0          
+ XE CC(t,3)   M3(t)     -1.0          
+ OD t
+
+*   constraint on labor
+ DO t         1                        T
+ DO i         1                        4
+ XE LL(t)     L(t,i)    1.0
+ OD i
+ OD t
+
+CONSTANTS
+
+ DO t         1                        T
+ RE aux                 0.0
+ DO i         1                        4
+ A+ aux       aux                      ee(t,i)
+ OD i
+ RM aux       aux       -1.0
+ ZE KTMODEL   GG(t)                    aux
+ OD t
+
+ DO t         1                        T
+ DO i         1                        4
+ AM aux       ee(t,i)   -1.0
+ ZE KTMODEL   CC(t,i)                  aux
+ OD i
+ OD t
+
+ RA 1+alpha   alpha     1.0
+ RE aux                 1.0
+ DO t         1                        T
+ R* coef      lo                       aux
+ ZE KTMODEL   LL(t)                    coef
+ R* aux       aux                      1+alpha
+ OD t
+
+BOUNDS
+
+ ZX KTMODEL   K(1,1)                   K11
+ ZX KTMODEL   K(1,2)                   K12
+ ZX KTMODEL   K(1,3)                   K13
+ ZX KTMODEL   K(1,4)                   K14
+ ZX KTMODEL   K(T,1)                   K1star
+ ZX KTMODEL   K(T,2)                   K2star
+ ZX KTMODEL   K(T,3)                   K3star
+ ZX KTMODEL   K(T,4)                   K4star
+ XX KTMODEL   ksi(1)    0.0
+ XX KTMODEL   gam(1)    0.0
+ ZX KTMODEL   gam(T)    0.0            gammastar
+ XX KTMODEL   L(1,1)    5.1
+ XX KTMODEL   L(1,2)    0.84
+ XX KTMODEL   L(1,3)    0.36
+ XX KTMODEL   L(1,4)    2.3
+ DO t         1                        T
+ DO i         1                        4
+ ZL KTMODEL   C(t,i)                   COLO
+ OD i
+ OD t
+ DO t         2                        T-1
+ XR KTMODEL   gam(t)                 
+ OD t
+
+START POINT
+
+    KTMODEL   ksi1      0.0000000E+00
+    KTMODEL   K1,1      2.0200000E+00
+    KTMODEL   K1,2      2.1300000E+00
+    KTMODEL   K1,3      1.2600000E+00
+    KTMODEL   K1,4      1.2700000E+00
+    KTMODEL   gam1      2.5000000E-01
+    KTMODEL   Q1,1      1.5824706E+00
+    KTMODEL   Q1,2      1.4338352E+00
+    KTMODEL   Q1,3      9.3881068E-01
+    KTMODEL   Q1,4      9.6418087E-01
+    KTMODEL   C1,1      1.0633670E+00
+    KTMODEL   C1,2      3.0658512E-01
+    KTMODEL   C1,3      6.0609873E-01
+    KTMODEL   C1,4      4.9885553E-01
+    KTMODEL   del1,1    1.5468220E-01
+    KTMODEL   del1,2    8.5635062E-02
+    KTMODEL   del1,3    1.6967860E-01
+    KTMODEL   del1,4    1.0188439E-01
+    KTMODEL   L1,1      5.1000000E+00
+    KTMODEL   L1,2      8.4000000E-01
+    KTMODEL   L1,3      3.6000000E-01
+    KTMODEL   L1,4      2.3000000E+00
+    KTMODEL   M21       0.0000000E+00
+    KTMODEL   M31       0.0000000E+00
+
+    KTMODEL   ksi2      1.0220136E+00
+    KTMODEL   K2,1      2.1474812E+00
+    KTMODEL   K2,2      2.2087845E+00
+    KTMODEL   K2,3      1.3858756E+00
+    KTMODEL   K2,4      1.3567091E+00
+    KTMODEL   gam2      2.9737259E-01
+    KTMODEL   Q2,1      1.7428778E+00
+    KTMODEL   Q2,2      1.7779406E+00
+    KTMODEL   Q2,3      9.8301901E-01
+    KTMODEL   Q2,4      8.6430611E-01
+    KTMODEL   C2,1      1.1642574E+00
+    KTMODEL   C2,2      5.3705577E-01
+    KTMODEL   C2,3      6.1546349E-01
+    KTMODEL   C2,4      3.5016122E-01
+    KTMODEL   del2,1    1.5273789E-01
+    KTMODEL   del2,2    9.1335202E-02
+    KTMODEL   del2,3    1.8578568E-01
+    KTMODEL   del2,4    1.1213136E-01
+    KTMODEL   L2,1      5.4679576E+00
+    KTMODEL   L2,2      1.0647922E+00
+    KTMODEL   L2,3      3.6000000E-01
+    KTMODEL   L2,4      1.8792502E+00
+    KTMODEL   M22       0.0000000E+00
+    KTMODEL   M32       0.0000000E+00
+
+    KTMODEL   ksi3      2.0722324E+00
+    KTMODEL   K3,1      2.2749857E+00
+    KTMODEL   K3,2      2.2926200E+00
+    KTMODEL   K3,3      1.5238659E+00
+    KTMODEL   K3,4      1.4517037E+00
+    KTMODEL   gam3      3.3347851E-01
+    KTMODEL   Q3,1      1.9345542E+00
+    KTMODEL   Q3,2      1.8338029E+00
+    KTMODEL   Q3,3      1.0290609E+00
+    KTMODEL   Q3,4      7.9543358E-01
+    KTMODEL   C3,1      1.3186216E+00
+    KTMODEL   C3,2      5.4921599E-01
+    KTMODEL   C3,3      6.2581567E-01
+    KTMODEL   C3,4      2.5368323E-01
+    KTMODEL   del3,1    1.5004432E-01
+    KTMODEL   del3,2    8.8947588E-02
+    KTMODEL   del3,3    2.3303750E-01
+    KTMODEL   del3,4    9.9934103E-02
+    KTMODEL   L3,1      5.9390836E+00
+    KTMODEL   L3,2      1.0442219E+00
+    KTMODEL   L3,3      3.6000000E-01
+    KTMODEL   L3,4      1.6041345E+00
+    KTMODEL   M23       0.0000000E+00
+    KTMODEL   M33       0.0000000E+00
+
+    KTMODEL   ksi4      3.1190326E+00
+    KTMODEL   K4,1      2.4017909E+00
+    KTMODEL   K4,2      2.3746838E+00
+    KTMODEL   K4,3      1.6907124E+00
+    KTMODEL   K4,4      1.5386167E+00
+    KTMODEL   gam4      3.1821387E-01
+    KTMODEL   Q4,1      2.1003007E+00
+    KTMODEL   Q4,2      2.3359460E+00
+    KTMODEL   Q4,3      1.0791970E+00
+    KTMODEL   Q4,4      6.2252534E-01
+    KTMODEL   C4,1      1.4098752E+00
+    KTMODEL   C4,2      5.6075780E-01
+    KTMODEL   C4,3      6.3287538E-01
+    KTMODEL   C4,4      2.0000000E-02
+    KTMODEL   del4,1    1.7033776E-01
+    KTMODEL   del4,2    8.6698026E-02
+    KTMODEL   del4,3    2.9976728E-01
+    KTMODEL   del4,4    2.3057285E+00
+    KTMODEL   L4,1      6.2555346E+00
+    KTMODEL   L4,2      1.3764943E+00
+    KTMODEL   L4,3      3.6000000E-01
+    KTMODEL   L4,4      1.1343599E+00
+    KTMODEL   M24       0.0000000E+00
+    KTMODEL   M34       0.0000000E+00
+
+    KTMODEL   ksi5      4.0780633E+00
+    KTMODEL   K5,1      2.5440561E+00
+    KTMODEL   K5,2      2.4550418E+00
+    KTMODEL   K5,3      1.8957129E+00
+    KTMODEL   K5,4      2.0225426E+00
+    KTMODEL   gam5      5.2028373E-01
+    KTMODEL   Q5,1      1.8657186E+00
+    KTMODEL   Q5,2      1.3815054E+00
+    KTMODEL   Q5,3      1.0645461E+00
+    KTMODEL   Q5,4      1.6234601E+00
+    KTMODEL   C5,1      1.2710468E+00
+    KTMODEL   C5,2      1.4272656E-01
+    KTMODEL   C5,3      5.6412797E-01
+    KTMODEL   C5,4      1.0185121E+00
+    KTMODEL   del5,1    1.4647303E-01
+    KTMODEL   del5,2    2.0000000E-02
+    KTMODEL   del5,3    2.5442974E-01
+    KTMODEL   del5,4    2.8807890E-01
+    KTMODEL   L5,1      4.8971660E+00
+    KTMODEL   L5,2      6.2583741E-01
+    KTMODEL   L5,3      3.3205642E-01
+    KTMODEL   L5,4      3.4538568E+00
+    KTMODEL   M25       0.0000000E+00
+    KTMODEL   M35       0.0000000E+00
+
+    KTMODEL   ksi6      5.1558883E+00
+    KTMODEL   K6,1      2.6703667E+00
+    KTMODEL   K6,2      2.4746980E+00
+    KTMODEL   K6,3      2.0846294E+00
+    KTMODEL   K6,4      2.2416789E+00
+    KTMODEL   gam6      2.8968834E-01
+    KTMODEL   Q6,1      5.4326370E-01
+    KTMODEL   Q6,2      1.7376584E+00
+    KTMODEL   Q6,3      1.1146323E+00
+    KTMODEL   Q6,4      2.9831498E+00
+    KTMODEL   C6,1      2.0000000E-02
+    KTMODEL   C6,2      2.0000000E-02
+    KTMODEL   C6,3      5.4191430E-01
+    KTMODEL   C6,4      2.2559574E+00
+    KTMODEL   del6,1    1.7248857E-01
+    KTMODEL   del6,2    2.6267773E-01
+    KTMODEL   del6,3    2.1988009E-01
+    KTMODEL   del6,4    2.4578245E-01
+    KTMODEL   L6,1      6.5197036E-01
+    KTMODEL   L6,2      8.1558091E-01
+    KTMODEL   L6,3      3.3243443E-01
+    KTMODEL   L6,4      7.6951092E+00
+    KTMODEL   M26       0.0000000E+00
+    KTMODEL   M36       0.0000000E+00
+
+    KTMODEL   ksi7      6.0111074E+00
+    KTMODEL   K7,1      2.8166152E+00
+    KTMODEL   K7,2      2.6877725E+00
+    KTMODEL   K7,3      2.2576552E+00
+    KTMODEL   K7,4      2.4397890E+00
+    KTMODEL   gam7      2.5000000E-01
+    KTMODEL   Q7,1      6.3855150E-01
+    KTMODEL   Q7,2      2.5381646E+00
+    KTMODEL   Q7,3      1.1616932E+00
+    KTMODEL   Q7,4      3.0429391E+00
+    KTMODEL   C7,1      2.0000000E-02
+    KTMODEL   C7,2      5.0404675E-01
+    KTMODEL   C7,3      5.1383192E-01
+    KTMODEL   C7,4      2.2085921E+00
+    KTMODEL   del7,1    1.7572694E-01
+    KTMODEL   del7,2    3.1078498E-01
+    KTMODEL   del7,3    2.6223977E-01
+    KTMODEL   del7,4    3.0454648E-01
+    KTMODEL   L7,1      7.8449273E-01
+    KTMODEL   L7,2      1.2736726E+00
+    KTMODEL   L7,3      3.3229782E-01
+    KTMODEL   L7,4      7.2945337E+00
+    KTMODEL   M27       0.0000000E+00
+    KTMODEL   M37       0.0000000E+00
+
+    KTMODEL   ksi8      6.9588775E+00
+    KTMODEL   K8,1      2.9663999E+00
+    KTMODEL   K8,2      2.9355920E+00
+    KTMODEL   K8,3      2.4595439E+00
+    KTMODEL   K8,4      2.6786901E+00
+    KTMODEL   gam8      2.5000000E-01
+    KTMODEL   Q8,1      6.8561105E-01
+    KTMODEL   Q8,2      2.8567701E+00
+    KTMODEL   Q8,3      1.2039529E+00
+    KTMODEL   Q8,4      3.2357489E+00
+    KTMODEL   C8,1      2.0000000E-02
+    KTMODEL   C8,2      5.9700994E-01
+    KTMODEL   C8,3      4.7905577E-01
+    KTMODEL   C8,4      2.3279062E+00
+    KTMODEL   del8,1    1.9132812E-01
+    KTMODEL   del8,2    3.6898536E-01
+    KTMODEL   del8,3    2.7560213E-01
+    KTMODEL   del8,4    3.3241659E-01
+    KTMODEL   L8,1      8.1219777E-01
+    KTMODEL   L8,2      1.3827015E+00
+    KTMODEL   L8,3      3.2933338E-01
+    KTMODEL   L8,4      7.3544641E+00
+    KTMODEL   M28       0.0000000E+00
+    KTMODEL   M38       0.0000000E+00
+
+    KTMODEL   ksi9      7.9219170E+00
+    KTMODEL   K9,1      3.1286589E+00
+    KTMODEL   K9,2      3.2245978E+00
+    KTMODEL   K9,3      2.6735024E+00
+    KTMODEL   K9,4      2.9397901E+00
+    KTMODEL   gam9      2.5000000E-01
+    KTMODEL   Q9,1      7.2504136E-01
+    KTMODEL   Q9,2      3.1015554E+00
+    KTMODEL   Q9,3      1.2472769E+00
+    KTMODEL   Q9,4      3.4655554E+00
+    KTMODEL   C9,1      2.0000000E-02
+    KTMODEL   C9,2      6.0243108E-01
+    KTMODEL   C9,3      4.3666074E-01
+    KTMODEL   C9,4      2.4866795E+00
+    KTMODEL   del9,1    2.0261128E-01
+    KTMODEL   del9,2    4.5058177E-01
+    KTMODEL   del9,3    3.0979842E-01
+    KTMODEL   del9,4    3.1619128E-01
+    KTMODEL   L9,1      8.1899618E-01
+    KTMODEL   L9,2      1.4243930E+00
+    KTMODEL   L9,3      3.2649971E-01
+    KTMODEL   L9,4      7.5063817E+00
+    KTMODEL   M29       0.0000000E+00
+    KTMODEL   M39       0.0000000E+00
+
+    KTMODEL   ksi10     8.8843305E+00
+    KTMODEL   K10,1     3.3003793E+00
+    KTMODEL   K10,2     3.5689516E+00
+    KTMODEL   K10,3     2.9121399E+00
+    KTMODEL   K10,4     3.1956171E+00
+    KTMODEL   gam10     2.5000000E-01
+    KTMODEL   Q10,1     1.8260276E+00
+    KTMODEL   Q10,2     3.3562430E+00
+    KTMODEL   Q10,3     1.2886361E+00
+    KTMODEL   Q10,4     2.7912943E+00
+    KTMODEL   C10,1     9.8573746E-01
+    KTMODEL   C10,2     6.0582006E-01
+    KTMODEL   C10,3     3.8561037E-01
+    KTMODEL   C10,4     1.7760203E+00
+    KTMODEL   del10,1   2.0527273E-01
+    KTMODEL   del10,2   5.5295396E-01
+    KTMODEL   del10,3   3.1760931E-01
+    KTMODEL   del10,4   3.2227669E-01
+    KTMODEL   L10,1     3.3213387E+00
+    KTMODEL   L10,2     1.4565503E+00
+    KTMODEL   L10,3     3.2246508E-01
+    KTMODEL   L10,4     5.1774420E+00
+    KTMODEL   M210      0.0000000E+00
+    KTMODEL   M310      0.0000000E+00
+
+    KTMODEL   ksi11     9.9828005E+00
+    KTMODEL   K11,1     3.4754291E+00
+    KTMODEL   K11,2     3.9806729E+00
+    KTMODEL   K11,3     3.1602272E+00
+    KTMODEL   K11,4     3.4595735E+00
+    KTMODEL   gam11     2.5000000E-01
+    KTMODEL   Q11,1     1.4258132E+00
+    KTMODEL   Q11,2     3.5710812E+00
+    KTMODEL   Q11,3     1.3384312E+00
+    KTMODEL   Q11,4     3.4982758E+00
+    KTMODEL   C11,1     5.8853717E-01
+    KTMODEL   C11,2     6.1062661E-01
+    KTMODEL   C11,3     3.7149722E-01
+    KTMODEL   C11,4     2.4002291E+00
+    KTMODEL   del11,1   1.9720725E-01
+    KTMODEL   del11,2   6.0751629E-01
+    KTMODEL   del11,3   3.3190394E-01
+    KTMODEL   del11,4   3.6144987E-01
+    KTMODEL   L11,1     2.0936888E+00
+    KTMODEL   L11,2     1.4510375E+00
+    KTMODEL   L11,3     3.2098930E-01
+    KTMODEL   L11,4     6.6176364E+00
+    KTMODEL   M211      0.0000000E+00
+    KTMODEL   M311      0.0000000E+00
+
+    KTMODEL   ksi12     1.1065293E+01
+    KTMODEL   K12,1     3.6458342E+00
+    KTMODEL   K12,2     4.4348056E+00
+    KTMODEL   K12,3     3.4216498E+00
+    KTMODEL   K12,4     3.7536589E+00
+    KTMODEL   gam12     2.5000000E-01
+    KTMODEL   Q12,1     2.1011243E+00
+    KTMODEL   Q12,2     3.7519575E+00
+    KTMODEL   Q12,3     1.3765265E+00
+    KTMODEL   Q12,4     3.1454406E+00
+    KTMODEL   C12,1     1.1760991E+00
+    KTMODEL   C12,2     6.1403409E-01
+    KTMODEL   C12,3     3.5537079E-01
+    KTMODEL   C12,4     2.0162173E+00
+    KTMODEL   del12,1   2.5459103E-01
+    KTMODEL   del12,2   6.3604791E-01
+    KTMODEL   del12,3   3.6632176E-01
+    KTMODEL   del12,4   3.4508681E-01
+    KTMODEL   L12,1     3.5668903E+00
+    KTMODEL   L12,2     1.4217616E+00
+    KTMODEL   L12,3     3.1582976E-01
+    KTMODEL   L12,4     5.3885374E+00
+    KTMODEL   M212      0.0000000E+00
+    KTMODEL   M312      0.0000000E+00
+
+    KTMODEL   ksi13     1.2202019E+01
+    KTMODEL   K13,1     3.8590172E+00
+    KTMODEL   K13,2     4.9178119E+00
+    KTMODEL   K13,3     3.7089706E+00
+    KTMODEL   K13,4     4.0409806E+00
+    KTMODEL   gam13     2.5000000E-01
+    KTMODEL   Q13,1     2.0401711E+00
+    KTMODEL   Q13,2     3.9875881E+00
+    KTMODEL   Q13,3     1.4275351E+00
+    KTMODEL   Q13,4     3.5690527E+00
+    KTMODEL   C13,1     1.0858806E+00
+    KTMODEL   C13,2     6.1585105E-01
+    KTMODEL   C13,3     3.3706697E-01
+    KTMODEL   C13,4     2.3648201E+00
+    KTMODEL   del13,1   2.2626623E-01
+    KTMODEL   del13,2   7.1370006E-01
+    KTMODEL   del13,3   3.8672726E-01
+    KTMODEL   del13,4   3.8072648E-01
+    KTMODEL   L13,1     3.1555493E+00
+    KTMODEL   L13,2     1.4184103E+00
+    KTMODEL   L13,3     3.1398397E-01
+    KTMODEL   L13,4     6.0189359E+00
+    KTMODEL   M213      0.0000000E+00
+    KTMODEL   M313      0.0000000E+00
+
+    KTMODEL   ksi14     1.3350325E+01
+    KTMODEL   K14,1     4.0536371E+00
+    KTMODEL   K14,2     5.4581992E+00
+    KTMODEL   K14,3     4.0140528E+00
+    KTMODEL   K14,4     4.3566387E+00
+    KTMODEL   gam14     2.5000000E-01
+    KTMODEL   Q14,1     1.6726340E+00
+    KTMODEL   Q14,2     4.2334771E+00
+    KTMODEL   Q14,3     1.4815378E+00
+    KTMODEL   Q14,4     4.2888350E+00
+    KTMODEL   C14,1     7.1548558E-01
+    KTMODEL   C14,2     6.1586746E-01
+    KTMODEL   C14,3     3.1640979E-01
+    KTMODEL   C14,4     2.9942417E+00
+    KTMODEL   del14,1   2.4252923E-01
+    KTMODEL   del14,2   7.6869720E-01
+    KTMODEL   del14,3   3.8427772E-01
+    KTMODEL   del14,4   4.2258141E-01
+    KTMODEL   L14,1     2.1400039E+00
+    KTMODEL   L14,2     1.4130112E+00
+    KTMODEL   L14,3     3.1261687E-01
+    KTMODEL   L14,4     7.2593850E+00
+    KTMODEL   M214      0.0000000E+00
+    KTMODEL   M314      0.0000000E+00
+
+    KTMODEL   ksi15     1.4483882E+01
+    KTMODEL   K15,1     4.2616420E+00
+    KTMODEL   K15,2     6.0445521E+00
+    KTMODEL   K15,3     4.3226533E+00
+    KTMODEL   K15,4     4.7052054E+00
+    KTMODEL   gam15     2.5000000E-01
+    KTMODEL   Q15,1     2.4096844E+00
+    KTMODEL   Q15,2     4.4716217E+00
+    KTMODEL   Q15,3     1.5262078E+00
+    KTMODEL   Q15,4     3.9326306E+00
+    KTMODEL   C15,1     1.3535949E+00
+    KTMODEL   C15,2     6.1385311E-01
+    KTMODEL   C15,3     2.9321056E-01
+    KTMODEL   C15,4     2.5969776E+00
+    KTMODEL   del15,1   2.0510681E-01
+    KTMODEL   del15,2   8.6441012E-01
+    KTMODEL   del15,3   4.2648751E-01
+    KTMODEL   del15,4   4.6904628E-01
+    KTMODEL   L15,1     3.5289963E+00
+    KTMODEL   L15,2     1.3994701E+00
+    KTMODEL   L15,3     3.0881275E-01
+    KTMODEL   L15,4     6.1102381E+00
+    KTMODEL   M215      0.0000000E+00
+    KTMODEL   M315      0.0000000E+00
+
+    KTMODEL   ksi16     1.5669356E+01
+    KTMODEL   K16,1     4.4426568E+00
+    KTMODEL   K16,2     6.7014438E+00
+    KTMODEL   K16,3     4.6630523E+00
+    KTMODEL   K16,4     5.0901911E+00
+    KTMODEL   gam16     2.5000000E-01
+    KTMODEL   Q16,1     2.6432141E+00
+    KTMODEL   Q16,2     4.7268527E+00
+    KTMODEL   Q16,3     1.5769644E+00
+    KTMODEL   Q16,4     4.0858717E+00
+    KTMODEL   C16,1     1.5309810E+00
+    KTMODEL   C16,2     6.0955576E-01
+    KTMODEL   C16,3     2.6726697E-01
+    KTMODEL   C16,4     2.6825620E+00
+    KTMODEL   del16,1   2.3082428E-01
+    KTMODEL   del16,2   9.2846898E-01
+    KTMODEL   del16,3   4.6589851E-01
+    KTMODEL   del16,4   4.6790452E-01
+    KTMODEL   L16,1     3.8029607E+00
+    KTMODEL   L16,2     1.3874800E+00
+    KTMODEL   L16,3     3.0612119E-01
+    KTMODEL   L16,4     6.0779058E+00
+    KTMODEL   M216      0.0000000E+00
+    KTMODEL   M316      0.0000000E+00
+
+    KTMODEL   ksi17     1.6872523E+01
+    KTMODEL   K17,1     4.6444564E+00
+    KTMODEL   K17,2     7.4124788E+00
+    KTMODEL   K17,3     5.0339370E+00
+    KTMODEL   K17,4     5.4797794E+00
+    KTMODEL   gam17     2.5000000E-01
+    KTMODEL   Q17,1     2.6009726E+00
+    KTMODEL   Q17,2     4.7686471E+00
+    KTMODEL   Q17,3     1.4788760E+00
+    KTMODEL   Q17,4     4.6400999E+00
+    KTMODEL   C17,1     1.5010447E+00
+    KTMODEL   C17,2     6.0269928E-01
+    KTMODEL   C17,3     2.3836218E-01
+    KTMODEL   C17,4     3.1786128E+00
+    KTMODEL   del17,1   2.9163801E-01
+    KTMODEL   del17,2   8.6251017E-01
+    KTMODEL   del17,3   4.8557089E-01
+    KTMODEL   del17,4   4.5764113E-01
+    KTMODEL   L17,1     3.4547435E+00
+    KTMODEL   L17,2     1.2928171E+00
+    KTMODEL   L17,3     2.6901591E-01
+    KTMODEL   L17,4     6.7893805E+00
+    KTMODEL   M217      0.0000000E+00
+    KTMODEL   M317      1.3805102E-01
+
+    KTMODEL   ksi18     1.8115324E+01
+    KTMODEL   K18,1     4.8927994E+00
+    KTMODEL   K18,2     8.0993444E+00
+    KTMODEL   K18,3     5.4232879E+00
+    KTMODEL   K18,4     5.8668506E+00
+    KTMODEL   gam18     2.5000000E-01
+    KTMODEL   Q18,1     2.3862378E+00
+    KTMODEL   Q18,2     4.6855447E+00
+    KTMODEL   Q18,3     1.2845076E+00
+    KTMODEL   Q18,4     5.4115919E+00
+    KTMODEL   C18,1     1.3418329E+00
+    KTMODEL   C18,2     5.9298155E-01
+    KTMODEL   C18,3     2.0626372E-01
+    KTMODEL   C18,4     3.8995476E+00
+    KTMODEL   del18,1   3.0946569E-01
+    KTMODEL   del18,2   7.5583528E-01
+    KTMODEL   del18,3   4.9236328E-01
+    KTMODEL   del18,4   4.5852410E-01
+    KTMODEL   L18,1     2.7926691E+00
+    KTMODEL   L18,2     1.1685015E+00
+    KTMODEL   L18,3     2.1535689E-01
+    KTMODEL   L18,4     7.8655487E+00
+    KTMODEL   M218      0.0000000E+00
+    KTMODEL   M318      3.6475310E-01
+
+    KTMODEL   ksi19     1.9399892E+01
+    KTMODEL   K19,1     5.1560346E+00
+    KTMODEL   K19,2     8.7270425E+00
+    KTMODEL   K19,3     5.8228399E+00
+    KTMODEL   K19,4     6.2586086E+00
+    KTMODEL   gam19     2.5000000E-01
+    KTMODEL   Q19,1     2.9201456E+00
+    KTMODEL   Q19,2     4.8427455E+00
+    KTMODEL   Q19,3     1.2462945E+00
+    KTMODEL   Q19,4     5.3632252E+00
+    KTMODEL   C19,1     1.8177844E+00
+    KTMODEL   C19,2     5.8007218E-01
+    KTMODEL   C19,3     1.7072245E-01
+    KTMODEL   C19,4     3.8038208E+00
+    KTMODEL   del19,1   3.2606120E-01
+    KTMODEL   del19,2   7.8143007E-01
+    KTMODEL   del19,3   5.0312127E-01
+    KTMODEL   del19,4   4.6975977E-01
+    KTMODEL   L19,1     3.5577888E+00
+    KTMODEL   L19,2     1.1367583E+00
+    KTMODEL   L19,3     1.9800682E-01
+    KTMODEL   L19,4     7.3903638E+00
+    KTMODEL   M219      0.0000000E+00
+    KTMODEL   M319      4.4620737E-01
+
+    KTMODEL   ksi20     2.0725169E+01
+    KTMODEL   K20,1     5.4333931E+00
+    KTMODEL   K20,2     9.3805658E+00
+    KTMODEL   K20,3     6.2349478E+00
+    KTMODEL   K20,4     6.6623325E+00
+    KTMODEL   gam20     2.5000000E-01
+    KTMODEL   Q20,1     2.8125594E+00
+    KTMODEL   Q20,2     4.5260909E+00
+    KTMODEL   Q20,3     8.9008540E-01
+    KTMODEL   Q20,4     6.1192754E+00
+    KTMODEL   C20,1     1.8054011E+00
+    KTMODEL   C20,2     5.6361011E-01
+    KTMODEL   C20,3     1.3147137E-01
+    KTMODEL   C20,4     4.5408934E+00
+    KTMODEL   del20,1   4.2966282E-01
+    KTMODEL   del20,2   5.2545641E-01
+    KTMODEL   del20,3   4.8373848E-01
+    KTMODEL   del20,4   4.1643659E-01
+    KTMODEL   L20,1     3.1034954E+00
+    KTMODEL   L20,2     9.6789336E-01
+    KTMODEL   L20,3     1.2538720E-01
+    KTMODEL   L20,4     8.3318001E+00
+    KTMODEL   M220      0.0000000E+00
+    KTMODEL   M320      8.1700713E-01
+
+    KTMODEL   ksi21     2.2114094E+01
+    KTMODEL   K21,1     5.7854346E+00
+    KTMODEL   K21,2     9.8490656E+00
+    KTMODEL   K21,3     6.6387737E+00
+    KTMODEL   K21,4     7.0289624E+00
+    KTMODEL   gam21     2.5000000E-01
+    KTMODEL   Q21,1     2.4714909E+00
+    KTMODEL   Q21,2     4.6738460E+00
+    KTMODEL   Q21,3     5.5132090E-01
+    KTMODEL   Q21,4     6.9963336E+00
+    KTMODEL   C21,1     1.5276523E+00
+    KTMODEL   C21,2     5.3980187E-01
+    KTMODEL   C21,3     1.2499618E-01
+    KTMODEL   C21,4     5.3599726E+00
+    KTMODEL   del21,1   4.3386511E-01
+    KTMODEL   del21,2   5.8791767E-01
+    KTMODEL   del21,3   3.6452018E-01
+    KTMODEL   del21,4   5.1432036E-01
+    KTMODEL   L21,1     2.3135990E+00
+    KTMODEL   L21,2     9.4948227E-01
+    KTMODEL   L21,3     6.7347986E-02
+    KTMODEL   L21,4     9.4487184E+00
+    KTMODEL   M221      0.0000000E+00
+    KTMODEL   M321      1.1844369E+00
+
+    KTMODEL   ksi22     2.3522926E+01
+    KTMODEL   K22,1     6.1443340E+00
+    KTMODEL   K22,2     1.0369505E+01
+    KTMODEL   K22,3     6.9587327E+00
+    KTMODEL   K22,4     7.4725745E+00
+    KTMODEL   gam22     5.6481120E-01
+    KTMODEL   Q22,1     2.1194508E+00
+    KTMODEL   Q22,2     4.9766009E+00
+    KTMODEL   Q22,3     1.2206889E+00
+    KTMODEL   Q22,4     7.7431245E+00
+    KTMODEL   C22,1     1.0556761E+00
+    KTMODEL   C22,2     5.1213200E-01
+    KTMODEL   C22,3     1.1870520E-01
+    KTMODEL   C22,4     5.9540304E+00
+    KTMODEL   del22,1   5.5403317E-01
+    KTMODEL   del22,2   4.9518402E-01
+    KTMODEL   del22,3   5.1447856E-01
+    KTMODEL   del22,4   3.8997648E-01
+    KTMODEL   L22,1     1.6451019E+00
+    KTMODEL   L22,2     9.6937115E-01
+    KTMODEL   L22,3     1.6936869E-01
+    KTMODEL   L22,4     1.0250889E+01
+    KTMODEL   M222      0.0000000E+00
+    KTMODEL   M322      6.2865308E-01
+
+    KTMODEL   ksi23     2.4872617E+01
+    KTMODEL   K23,1     6.5868073E+00
+    KTMODEL   K23,2     1.0818263E+01
+    KTMODEL   K23,3     7.3916469E+00
+    KTMODEL   K23,4     7.8229040E+00
+    KTMODEL   gam23     2.5000000E-01
+    KTMODEL   Q23,1     2.4624262E+00
+    KTMODEL   Q23,2     6.4993134E+00
+    KTMODEL   Q23,3     2.0020839E+00
+    KTMODEL   Q23,4     7.7327219E+00
+    KTMODEL   C23,1     1.0881722E+00
+    KTMODEL   C23,2     4.8028903E-01
+    KTMODEL   C23,3     1.1267162E-01
+    KTMODEL   C23,4     5.7074370E+00
+    KTMODEL   del23,1   6.4095445E-01
+    KTMODEL   del23,2   1.1420748E+00
+    KTMODEL   del23,3   4.4979329E-01
+    KTMODEL   del23,4   3.8816623E-01
+    KTMODEL   L23,1     1.9195659E+00
+    KTMODEL   L23,2     1.3034088E+00
+    KTMODEL   L23,3     2.9741902E-01
+    KTMODEL   L23,4     9.7750314E+00
+    KTMODEL   M223      0.0000000E+00
+    KTMODEL   M323      8.8633528E-18
+
+    KTMODEL   ksi24     2.6149412E+01
+    KTMODEL   K24,1     7.0904737E+00
+    KTMODEL   K24,2     1.1745643E+01
+    KTMODEL   K24,3     7.7812212E+00
+    KTMODEL   K24,4     8.1733800E+00
+    KTMODEL   gam24     5.4210109E-18
+    KTMODEL   Q24,1     4.7779224E+00
+    KTMODEL   Q24,2     6.5783734E+00
+    KTMODEL   Q24,3     1.4311656E+00
+    KTMODEL   Q24,4     6.1626888E+00
+    KTMODEL   C24,1     3.2725896E+00
+    KTMODEL   C24,2     4.4394334E-01
+    KTMODEL   C24,3     1.0697615E-01
+    KTMODEL   C24,4     4.2119610E+00
+    KTMODEL   del24,1   7.1625934E-01
+    KTMODEL   del24,2   1.1903553E+00
+    KTMODEL   del24,3   5.1179400E-01
+    KTMODEL   del24,4   4.2438596E-01
+    KTMODEL   L24,1     5.0964954E+00
+    KTMODEL   L24,2     1.2306186E+00
+    KTMODEL   L24,3     1.8891916E-01
+    KTMODEL   L24,4     7.0453004E+00
+    KTMODEL   M224      0.0000000E+00
+    KTMODEL   M324      5.6281250E-01
+
+    KTMODEL   ksi25     2.7571234E+01
+    KTMODEL   K25,1     7.6486448E+00
+    KTMODEL   K25,2     1.2719704E+01
+    KTMODEL   K25,3     8.2196711E+00
+    KTMODEL   K25,4     8.5548198E+00
+    KTMODEL   gam25     2.5000000E-01
+    KTMODEL   Q25,1     2.6044332E+00
+    KTMODEL   Q25,2     6.8639660E+00
+    KTMODEL   Q25,3     1.7267834E+00
+    KTMODEL   Q25,4     8.8695591E+00
+    KTMODEL   C25,1     1.2043019E+00
+    KTMODEL   C25,2     4.0274665E-01
+    KTMODEL   C25,3     1.0170756E-01
+    KTMODEL   C25,4     6.7062258E+00
+    KTMODEL   del25,1   1.2125356E+00
+    KTMODEL   del25,2   9.1149536E-01
+    KTMODEL   del25,3   5.0374164E-01
+    KTMODEL   del25,4   3.8402991E-01
+    KTMODEL   L25,1     1.7265353E+00
+    KTMODEL   L25,2     1.2115009E+00
+    KTMODEL   L25,3     2.2779777E-01
+    KTMODEL   L25,4     1.0666726E+01
+    KTMODEL   M225      0.0000000E+00
+    KTMODEL   M325      3.6975497E-01
+
+    KTMODEL   ksi26     2.8911459E+01
+    KTMODEL   K26,1     8.4845841E+00
+    KTMODEL   K26,2     1.3508161E+01
+    KTMODEL   K26,3     8.6555493E+00
+    KTMODEL   K26,4     8.9048320E+00
+    KTMODEL   gam26     2.5000000E-01
+    KTMODEL   Q26,1     5.5459798E+00
+    KTMODEL   Q26,2     7.1073830E+00
+    KTMODEL   Q26,3     1.7302510E+00
+    KTMODEL   Q26,4     6.8505390E+00
+    KTMODEL   C26,1     3.8439836E+00
+    KTMODEL   C26,2     3.5633129E-01
+    KTMODEL   C26,3     9.6963237E-02
+    KTMODEL   C26,4     4.7102326E+00
+    KTMODEL   del26,1   1.2346703E+00
+    KTMODEL   del26,2   1.0008649E+00
+    KTMODEL   del26,3   3.3096457E-01
+    KTMODEL   del26,4   4.5714631E-01
+    KTMODEL   L26,1     5.2960824E+00
+    KTMODEL   L26,2     1.1884944E+00
+    KTMODEL   L26,3     2.1902994E-01
+    KTMODEL   L26,4     7.4056048E+00
+    KTMODEL   M226      0.0000000E+00
+    KTMODEL   M326      4.1703779E-01
+
+    KTMODEL   ksi27     3.0390985E+01
+    KTMODEL   K27,1     9.3587943E+00
+    KTMODEL   K27,2     1.4369912E+01
+    KTMODEL   K27,3     8.9573653E+00
+    KTMODEL   K27,4     9.3161920E+00
+    KTMODEL   gam27     2.5000000E-01
+    KTMODEL   Q27,1     3.8418761E+00
+    KTMODEL   Q27,2     7.7786312E+00
+    KTMODEL   Q27,3     2.1036351E+00
+    KTMODEL   Q27,4     9.2024799E+00
+    KTMODEL   C27,1     2.1533720E+00
+    KTMODEL   C27,2     3.0430981E-01
+    KTMODEL   C27,3     9.2849648E-02
+    KTMODEL   C27,4     6.8204485E+00
+    KTMODEL   del27,1   2.7082306E+00
+    KTMODEL   del27,2   3.9299959E-01
+    KTMODEL   del27,3   5.1706040E-01
+    KTMODEL   del27,4   3.7036217E-01
+    KTMODEL   L27,1     2.6177667E+00
+    KTMODEL   L27,2     1.2542909E+00
+    KTMODEL   L27,3     2.6785234E-01
+    KTMODEL   L27,4     1.0251486E+01
+    KTMODEL   M227      0.0000000E+00
+    KTMODEL   M327      1.5777132E-01
+
+    KTMODEL   ksi28     3.1813488E+01
+    KTMODEL   K28,1     1.0827462E+01
+    KTMODEL   K28,2     1.4741024E+01
+    KTMODEL   K28,3     9.4083480E+00
+    KTMODEL   K28,4     9.6572339E+00
+    KTMODEL   gam28     2.5000000E-01
+    KTMODEL   Q28,1     5.7084903E+00
+    KTMODEL   Q28,2     7.9391579E+00
+    KTMODEL   Q28,3     2.0987232E+00
+    KTMODEL   Q28,4     8.4452598E+00
+    KTMODEL   C28,1     3.8202219E+00
+    KTMODEL   C28,2     2.4627437E-01
+    KTMODEL   C28,3     8.9482908E-02
+    KTMODEL   C28,4     6.0306055E+00
+    KTMODEL   del28,1   3.4697818E+00
+    KTMODEL   del28,2   3.0985729E-02
+    KTMODEL   del28,3   1.6604599E-01
+    KTMODEL   del28,4   3.9735859E-01
+    KTMODEL   L28,1     4.3544834E+00
+    KTMODEL   L28,2     1.2210708E+00
+    KTMODEL   L28,3     2.5628775E-01
+    KTMODEL   L28,4     8.8473818E+00
+    KTMODEL   M228      0.0000000E+00
+    KTMODEL   M328      2.2352392E-01
+
+    KTMODEL   ksi29     3.3345674E+01
+    KTMODEL   K29,1     1.2616277E+01
+    KTMODEL   K29,2     1.4771871E+01
+    KTMODEL   K29,3     9.5673449E+00
+    KTMODEL   K29,4     1.0022115E+01
+    KTMODEL   gam29     2.5000000E-01
+    KTMODEL   Q29,1     7.4665302E+00
+    KTMODEL   Q29,2     8.4015011E+00
+    KTMODEL   Q29,3     1.9112471E+00
+    KTMODEL   Q29,4     7.7480777E+00
+    KTMODEL   C29,1     5.3921149E+00
+    KTMODEL   C29,2     1.8179635E-01
+    KTMODEL   C29,3     8.6989383E-02
+    KTMODEL   C29,4     5.2887296E+00
+    KTMODEL   del29,1   5.3615700E-01
+    KTMODEL   del29,2   1.8084480E+00
+    KTMODEL   del29,3   2.4220802E-01
+    KTMODEL   del29,4   6.5812597E-02
+    KTMODEL   L29,1     5.8321176E+00
+    KTMODEL   L29,2     1.2566843E+00
+    KTMODEL   L29,3     2.2099455E-01
+    KTMODEL   L29,4     7.6630117E+00
+    KTMODEL   M229      0.0000000E+00
+    KTMODEL   M329      5.0035247E-01
+
+    KTMODEL   ksi30     3.4954120E+01
+    KTMODEL   K30,1     1.3096128E+01
+    KTMODEL   K30,2     1.6196551E+01
+    KTMODEL   K30,3     9.7950426E+00
+    KTMODEL   K30,4     1.0087013E+01
+    KTMODEL   gam30     2.5000000E-01
+    KTMODEL   Q30,1     4.7930677E+00
+    KTMODEL   Q30,2     2.0901936E+01
+    KTMODEL   Q30,3     2.8405831E+00
+    KTMODEL   Q30,4     8.5438954E+00
+    KTMODEL   C30,1     1.6834514E+00
+    KTMODEL   C30,2     1.1042591E-01
+    KTMODEL   C30,3     8.5506224E-02
+    KTMODEL   C30,4     4.8754142E+00
+    KTMODEL   del30,1   1.4465126E+00
+    KTMODEL   del30,2   8.4269429E+00
+    KTMODEL   del30,3   4.5228158E-01
+    KTMODEL   del30,4   2.2313589E-01
+    KTMODEL   L30,1     2.6001895E+00
+    KTMODEL   L30,2     3.9627465E+00
+    KTMODEL   L30,3     3.4650299E-01
+    KTMODEL   L30,4     8.3628253E+00
+    KTMODEL   M230      0.0000000E+00
+    KTMODEL   M330      0.0000000E+00
+
+ELEMENT TYPE
+
+ EV POW       X                       
+ EP POW       PEX                      
+
+ EV KAG       X                        Y
+ EP KAG       PMU                      PEPS
+
+ EV QUG       X                        Y
+ EP QUG       PBETA                    PRHO
+
+ELEMENT USES
+
+ DO t         1                        T
+ DO i         1                        4
+ XT EXI(t,i)  POW
+ ZV EXI(t,i)  X                        C(t,i)
+ ZP EXI(t,i)  PEX                      b(i)
+ OD i
+ OD t
+
+ RD -1/epsil  epsil     -1.0
+ DO t         1                        T
+ DO i         1                        4
+ XT EKA(t,i)  KAG
+ ZV EKA(t,i)  X                        K(t,i)
+ ZV EKA(t,i)  Y                        del(t,i)
+ A/ coef      epsil                    mu(i)                    
+ ZP EKA(t,i)  PMU                      coef
+ ZP EKA(t,i)  PEPS                     -1/epsil
+ OD i
+ OD t
+
+ DO t         1                        T
+ DO i         1                        4
+ XT EQU(t,i)  QUG
+ ZV EQU(t,i)  X                        K(t,i)
+ ZV EQU(t,i)  Y                        L(t,i)
+ ZP EQU(t,i)  PBETA                    beta(i)
+ ZP EQU(t,i)  PRHO                     rho(i)
+ OD i
+ OD t
+
+GROUP USES
+
+ RA 1+z       z         1.0
+ RD 1/(1+z)   1+z       1.0
+ R= aux       1/(1+z)  
+ DO t         1                        T
+ DO i         1                        4
+ R= coef      aux
+ A* coef      coef                     a(i)
+ RM -coef     coef       -1.0
+ ZE XI(t)     EXI(t,i)                 -coef
+ OD i
+ R* aux       aux                      1/(1+z)
+ OD t
+
+ DO t         1                        T
+ DO i         1                        4
+ AM coef      mu(i)      -1.0
+ ZE KK(t,i)   EKA(t,i)                 coef
+ OD i
+ OD t
+
+ DO i         1                        4
+ AA 1+nu(i)   nu(i)      1
+ AE aux(i)               1.0
+ OD i
+ DO t         1                        T
+ DO i         1                        4
+ A* coef      aux(i)                   1+nu(i)
+ A* coef      tau(i)                   aux(i)
+ RM coef      coef       -1.0
+ ZE QQ(t,i)   EQU(t,i)                 coef
+ OD i
+ OD t 
+
+OBJECT BOUND
+
+*   Solution (according to CONOPT)
+
+*LO SOLUTION             47.103967292       
+ 
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      KTMODEL
+
+TEMPORARIES
+
+ R  R
+ R  RX
+ R  RY
+ R  RXX
+ R  RXY
+ R  RYY
+ R  R1
+ R  R2
+ R  R3
+ R  R4
+ R  R5
+ R  R6
+ R  R7
+ R  R8
+ R  R9
+ R  R10
+ R  R11
+ 
+INDIVIDUALS
+
+ T  POW
+ F                      X ** PEX
+ G  X                   PEX * X ** ( PEX - 1.0 )
+ H  X         X         PEX * ( PEX - 1.0 ) * X ** ( PEX - 2.0 )
+
+ T  KAG
+ A  R1                  1.0 + PMU * Y / X
+ A  R                   R1 ** PEPS
+ A  R2                  PEPS * R1 ** ( PEPS - 1.0 )
+ A  R3                  PEPS * ( PEPS - 1.0 ) 
+ A+                      * R1 ** ( PEPS - 2.0 )
+ A  RX                  - R2 * PMU * Y / X ** 2
+ A  RY                  R2 * PMU / X
+ A  RYY                 R3 * ( PMU / X ) ** 2
+ A  R5                  R3 * PMU ** 2
+ F                      X * ( 1.0 - R )
+ G  X                   1.0 - R - X * RX
+ G  Y                   - X * RY
+ H  X         X         - ( RYY * Y ** 2 / X )
+ H  Y         Y         - X * RYY
+ H  X         Y         Y * RYY
+
+ T  QUG
+ A  RX                  - PRHO
+ A  RY                  - 1.0 / PRHO
+ A  R7                  X ** RX
+ A  R8                  Y ** RY
+ F                      PBETA * R7 + ( 1.0 - PBETA ) * R8
+ G  X                   PBETA * RX * X ** ( RX - 1.0 )
+ G  Y                   (1.0- PBETA) * RY * Y ** ( RY - 1.0 )
+ H  X         X         PBETA * RX * ( RX - 1.0 ) 
+ H+                      * X ** ( RX - 2.0 )
+ H  Y         Y         (1.0- PBETA) * RY * ( RY - 1.0 ) 
+ H+                      * Y ** ( RY - 2.0 )
+
+ENDATA

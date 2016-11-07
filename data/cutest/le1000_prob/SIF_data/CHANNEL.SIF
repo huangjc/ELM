@@ -1,0 +1,524 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          CHANNEL
+
+*   Problem :
+*   *********
+
+*   Analyse the flow of a fluid during injection into a long vertical channel,
+*   assuming that the flow is modelled by the boundary-value problem
+
+*     u'''' = R (u'u'' - u u''') t in [0,1]
+*     u(0) = 0, u(1) = 1, u'(0) = 0 = u'(1)
+
+*   where u is the potential function, u' is the tangential velocity of
+*   the field, and R is the Reynold's number
+
+*   This is problem 7 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, November 2000
+
+*   classification NOR2-AN-V-V
+
+* The order of the differential equation
+
+ IE ND                  4              $-PARAMETER
+
+*   The number of subintervals
+
+ IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+*IE NH                  400            $-PARAMETER
+
+*  The number of collocation points 
+
+*IE NC                  1              $-PARAMETER
+*IE NC                  2              $-PARAMETER
+*IE NC                  3              $-PARAMETER
+ IE NC                  4              $-PARAMETER
+
+* roots of NC-th degree Legendre polynomial
+
+*RE RHO1                0.5            $-PARAMETER for NC = 1 
+*RE RHO1                0.7886751346   $-PARAMETER for NC = 2 
+*RE RHO1                0.5            $-PARAMETER for NC = 3 
+ RE RHO1                0.0694318442   $-PARAMETER for NC = 4
+
+*RE RHO2                0.2113248654   $-PARAMETER for NC = 2 
+*RE RHO2                0.8872983346   $-PARAMETER for NC = 3 
+ RE RHO2                0.3300094782   $-PARAMETER for NC = 4
+
+*RE RHO3                0.1127016654   $-PARAMETER for NC = 3 
+ RE RHO3                0.6699905218   $-PARAMETER for NC = 4
+
+ RE RHO4                0.9305681558   $-PARAMETER for NC = 4
+
+*  The ODE is defined in [0,TF]
+
+ RE TF                  1.0
+
+*   The uniform interval length
+
+ RI RNH       NH
+ R/ H         TF                       RNH
+
+* The Reynolds number
+
+ RE R                   10.0
+
+*  Other useful values
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ RE zero                0.0
+ IA NH-1      NH        -1                
+ I+ NC+ND     NC                       ND
+ RM -R        R         -1.0 
+ 
+*  Factorials
+
+ RE FACT0               1.0
+ DO I         1                        NC+ND
+ RI RI        I
+ IA I-1       I         -1
+ A* FACT(I)   FACT(I-1)                RI
+ ND
+
+ RE H**ND               1.0
+ DO I         1                        ND
+ R* H**ND     H**ND                    H
+ ND
+
+VARIABLES
+
+*  The collocation approximation u is defined by the parameters V and W
+
+ DO I         1                        NH
+ DO J         1                        ND
+ X  V(I,J)
+ OD J
+
+ DO J         1                        NC
+ X  W(I,J)
+ OD J
+
+* DC[i,j,s] is the (s-1)-th derivative of u at the collocation points
+
+ DO J         1                        NC
+ DO S         1                        ND
+ X  DC(I,J,S)
+ ND
+
+GROUPS
+
+ N  OBJ
+
+* - Dc {i in 1..nh,j in 1..nc,s in 1..nd} + 
+*  sum {k in s..nd} v[i,k]*((rho[j]*h)^(k-s)/fact[k-s]) + 
+*  h^(nd-s+1)* sum {k in 1..nc} w[i,k]*(rho[j]^(k+nd-s)/fact[k+nd-s]) = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ A* RH        RHO(J)                   H
+
+ R= HPOWER    H**ND
+ IE S                   1
+ XE DC(I,J,S) DC(I,J,S) -1.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE DC(I,J,S) V(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE DC(I,J,S) W(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   2
+ XE DC(I,J,S) DC(I,J,S) -1.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE DC(I,J,S) V(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE DC(I,J,S) W(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   3
+ XE DC(I,J,S) DC(I,J,S) -1.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE DC(I,J,S) V(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE DC(I,J,S) W(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   4
+ XE DC(I,J,S) DC(I,J,S) -1.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE DC(I,J,S) V(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE DC(I,J,S) W(I,K)                   COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ ND
+
+*  sum {k in 1..nd} v[nh,k]*(h^(k-1)/fact[k-1]) + h^nd*
+*  sum {k in 1..nc} w[nh,k]/fact[k+nd-1] - 1 = 0
+
+ R= HPOWER    H**ND
+ IE IND                 0
+ RE PROD                1.0
+
+ DO K         1                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE BC3       V(NH,K)                  COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE BC3       W(NH,K)                  COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+*  sum {k in 2..nd} v[nh,k]*(h^(k-2)/fact[k-2]) + h^(nd-1)*
+*  sum {k in 1..nc} w[nh,k]/fact[k+nd-2] = 0
+
+ IE IND                 0
+ RE PROD                1.0
+ R/ HPOWER    HPOWER                   RH
+
+ DO K         2                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE BC4       V(NH,K)                  COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ ZE BC4       W(NH,K)                  COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+* collocation {i in 1..nh,j in 1..nc}
+*  sum {k in 1..nc} w[i,k]*(rho[j]^(k-1)/fact[k-1]) +
+*  R*Dc[i,j,1]*Dc[i,j,4] - R*Dc[i,j,2]*Dc[i,j,3] = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ IE IND                 0
+ RE PROD                1.0
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ ZE C(I,J)    W(I,K)                   COEF
+ A* PROD      PROD                     RHO(J)
+ IA IND       IND       1
+ ND
+
+* continuity {i in 1..nh-1,s in 1..nd}:
+*  sum {k in s..nd} v[i,k]*(h^(k-s)/fact[k-s]) + h^(nd-s+1)*
+*  sum {k in 1..nc} w[i,k]/fact[k+nd-s] - v[i+1,s] = 0
+
+ DO I         1                        NH-1
+ IA I+1       I         1
+ DO S         1                        ND
+ XE Y(I+1,S)            -1.0
+
+ IE IND                 0
+ RE PROD                1.0
+
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ ZE Y(I+1,S)  V(I,K)                   COEF
+ R* PROD      PROD                     H
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ ZE Y(I+1,S)  W(I,K)                   COEF
+ IA IND       IND       1
+ OD K
+
+ ND
+
+CONSTANTS
+
+    CHANNEL   OBJ        -1.0
+    CHANNEL   BC3        1.0
+    CHANNEL   BC4        0.0
+
+BOUNDS
+
+ XR CHANNEL   'DEFAULT'
+ XX CHANNEL   V(1,1)     0.0
+ XX CHANNEL   V(1,2)     0.0
+
+START POINT
+
+*X  CHANNEL1  'DEFAULT'  0.0
+
+ DO I         1                        NH
+ 
+* t[i] = (i-1)*h
+
+ RI RI        I
+ RA T         RI        -1.0
+ R* T         T                        H
+
+* v[i,1] = t[i]^2*(3 - 2*t[i])
+
+ RM DIFF      T         -2.0
+ RA DIFF      DIFF      3.0
+ R* V1        T                        DIFF
+ R* V1        V1                       DIFF
+ A= V(1)      V1
+ Z  CHANNEL   V(I,1)                   V1
+
+* v[i,2] = 6*t[i]*(1 - t[i])
+
+ RM DIFF      T         -1.0
+ RA DIFF      DIFF      1.0
+ R* V2        T                        DIFF
+ RM V2        V2        6.0
+ A= V(2)      V2
+ Z  CHANNEL   V(I,2)                   V2
+
+* v[i,3] = 6*(1.0 - 2*t[i])
+
+ RM DIFF      T         -2.0
+ RA DIFF      DIFF      1.0
+ RM V3        DIFF      6.0
+ A= V(3)      V3
+ Z  CHANNEL   V(I,3)                   V3
+
+* v[i,4] = -12
+
+ RE V4                  -12.0
+ A= V(4)      V4
+ Z  CHANNEL   V(I,4)                   V4
+
+* w[i,j] = 0
+
+ DO J         1                        NC
+ A= W(J)      zero
+ X  CHANNEL   W(I,J)    0.0
+ OD J
+
+* Dc {i in 1..nh,j in 1..nc,s in 1..nd} =
+*  sum {k in s..nd} v[i,k]*((rho[j]*h)^(k-s)/fact[k-s]) + 
+*  h^(nd-s+1)* sum {k in 1..nc} w[i,k]*(rho[j]^(k+nd-s)/fact[k+nd-s])
+
+ DO J         1                        NC
+ A* RH        RHO(J)                   H
+
+ R= HPOWER    H**ND
+ IE S                   1
+ RE DCIJS               0.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ A* COEF      V(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ A* COEF      W(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+ Z  CHANNEL   DC(I,J,S)                DCIJS    
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   2
+ RE DCIJS               0.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ A* COEF      V(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ A* COEF      W(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+ Z  CHANNEL   DC(I,J,S)                DCIJS    
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   3
+ RE DCIJS               0.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ A* COEF      V(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ A* COEF      W(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+ Z  CHANNEL   DC(I,J,S)                DCIJS    
+
+ R/ HPOWER    HPOWER                   H
+ IE S                   4
+ RE DCIJS               0.0
+
+ RE PROD                1.0
+ IE IND                 0
+ DO K         S                        ND
+ A/ COEF      PROD                     FACT(IND)
+ A* COEF      V(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(IND)
+ R* COEF      COEF                     HPOWER
+ A* COEF      W(K)                     COEF
+ R+ DCIJS     DCIJS                    COEF
+ R* PROD      PROD                     RH
+ IA IND       IND       1
+ OD K
+ Z  CHANNEL   DC(I,J,S)                DCIJS    
+
+ ND
+
+ELEMENT TYPE
+
+ EV PROD      X                        Y
+
+ELEMENT USES
+
+ DO I         1                        NH
+ DO J         1                        NC
+ XT P1(I,J)   PROD
+ ZV P1(I,J)   X                        DC(I,J,1)
+ ZV P1(I,J)   Y                        DC(I,J,4)
+ XT P2(I,J)   PROD
+ ZV P2(I,J)   X                        DC(I,J,2)
+ ZV P2(I,J)   Y                        DC(I,J,3)
+ ND
+
+GROUP USES
+
+* collocation {i in 1..nh,j in 1..nc}
+*  sum {k in 1..nc} w[i,k]*(rho[j]^(k-1)/fact[k-1]) +
+*  R*Dc[i,j,1]*Dc[i,j,4] - R*Dc[i,j,2]*Dc[i,j,3] = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ ZE C(I,J)    P1(I,J)                  R
+ ZE C(I,J)    P2(I,J)                  -R
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             1.0           
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      CHANNEL
+
+INDIVIDUALS
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+ENDATA
+

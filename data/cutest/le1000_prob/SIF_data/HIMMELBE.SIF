@@ -1,0 +1,84 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          HIMMELBE
+
+*   Problem :
+*   *********
+
+*   A 3 variables problem by Himmelblau.
+
+*   Source: problem 30 in
+*   D.H. Himmelblau,
+*   "Applied nonlinear programming",
+*   McGraw-Hill, New-York, 1972.
+
+*   See Buckley#88 (p. 65)
+
+*   SIF input: Ph. Toint, Dec 1989.
+
+*   classification NQR2-AY-3-3
+
+VARIABLES
+
+    X1
+    X2
+    X3
+
+GROUPS
+
+ E  G1        X3        -1.0
+ E  G2        X1        -1.0
+ E  G3        X2        -1.0
+
+CONSTANTS
+
+    HIMMELBE  G2        -1.0
+    HIMMELBE  G3        -1.0
+
+BOUNDS
+
+ FR HIMMELBE  'DEFAULT'
+
+START POINT
+
+    HIMMELBE  X1        -1.2
+    HIMMELBE  X2        2.0
+    HIMMELBE  X3        0.0
+
+ELEMENT TYPE
+
+ EV HE        X                        Y
+ IV HE        U
+
+ELEMENT USES
+
+ T  E1        HE
+ V  E1        X                        X1
+ V  E1        Y                        X2
+
+GROUP USES
+
+ E  G1        E1
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      HIMMELBE
+
+INDIVIDUALS
+
+ T  HE
+
+ R  U         X         1.0            Y         1.0
+
+ F                      0.25 * U * U
+ G  U                   0.5 * U
+ H  U         U         0.5
+
+ENDATA
